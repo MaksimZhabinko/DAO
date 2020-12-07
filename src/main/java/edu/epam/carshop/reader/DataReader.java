@@ -39,7 +39,6 @@ public class DataReader {
         } catch (IOException e) {
             logger.error("File input error occurred");
         }
-        logger.info("Read cars from file: " + cars);
         return cars;
     }
 
