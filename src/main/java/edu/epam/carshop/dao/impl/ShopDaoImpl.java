@@ -1,15 +1,17 @@
 package edu.epam.carshop.dao.impl;
 
-import edu.epam.carshop.dao.BaseDao;
+import edu.epam.carshop.dao.ShopDao;
+import edu.epam.carshop.entity.Brand;
 import edu.epam.carshop.entity.Car;
 import edu.epam.carshop.entity.CarShop;
 import edu.epam.carshop.exception.DaoException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ShopDaoImpl implements BaseDao<Integer, Car> {
+public class ShopDaoImpl implements ShopDao {
 
     private static final Logger logger = LogManager.getLogger(ShopDaoImpl.class);
     private final CarShop carShop = CarShop.getInstance();
@@ -73,5 +75,59 @@ public class ShopDaoImpl implements BaseDao<Integer, Car> {
         carShop.getCar(car.getId()).setPrice(car.getPrice());
         carShop.getCar(car.getId()).setRegisterNumber(car.getRegisterNumber());
         return carShop.getCar(car.getId());
+    }
+
+    @Override
+    public List<Car> findByBrand(Brand brand) throws DaoException {
+        List<Car> currentCars = new ArrayList<>();
+        List<Car> cars = carShop.getCars();
+        if (cars.size() == 0) {
+            throw new DaoException("shop is empty");
+        }
+        for (Car car : cars) {
+            if (brand.equals(car.getBrand())) {
+                currentCars.add(car);
+            }
+        }
+        if (currentCars.size() == 0) {
+            throw new DaoException("brand not found");
+        }
+        return currentCars;
+    }
+
+    @Override
+    public List<Car> findByModelAndAge(String model, int age) throws DaoException {
+        List<Car> currentCars = new ArrayList<>();
+        List<Car> cars = carShop.getCars();
+        if (cars.size() == 0) {
+            throw new DaoException("shop is empty");
+        }
+        for (Car car : cars) {
+            if (model.equals(car.getModel()) && age == car.getYearOfManufactured()) {
+                currentCars.add(car);
+            }
+        }
+        if (currentCars.size() == 0) {
+            throw new DaoException("model and age not found");
+        }
+        return currentCars;
+    }
+
+    @Override
+    public List<Car> findByPriceAndAge(Double price, int age) throws DaoException {
+        List<Car> currentCars = new ArrayList<>();
+        List<Car> cars = carShop.getCars();
+        if (cars.size() == 0) {
+            throw new DaoException("shop is empty");
+        }
+        for (Car car : cars) {
+            if (price.equals(car.getPrice()) && age == car.getYearOfManufactured()) {
+                currentCars.add(car);
+            }
+        }
+        if (currentCars.size() == 0) {
+            throw new DaoException("model and age not found");
+        }
+        return currentCars;
     }
 }

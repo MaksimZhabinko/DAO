@@ -67,50 +67,32 @@ public class CarShopService {
     }
 
     public List<Car> findByBrand(Brand brand) {
-        List<Car> currentCars = new ArrayList<>();
         List<Car> cars = null;
         try {
-            cars = dao.findAll();
+            cars = dao.findByBrand(brand);
         } catch (DaoException e) {
             logger.error(e);
         }
-        for (Car car : cars) {
-            if (brand.equals(car.getBrand())) {
-                currentCars.add(car);
-            }
-        }
-        return currentCars;
+        return cars;
     }
 
     public List<Car> findByModelAndAge(String model, int age) {
-        List<Car> currentCars = new ArrayList<>();
         List<Car> cars = null;
         try {
-            cars = dao.findAll();
+            cars = dao.findByModelAndAge(model, age);
         } catch (DaoException e) {
             logger.error(e);
         }
-        for (Car car : cars) {
-            if (model.equals(car.getModel()) && age == car.getYearOfManufactured()) {
-                currentCars.add(car);
-            }
-        }
-        return currentCars;
+        return cars;
     }
 
     public List<Car> findByPriceAndAge(Double price, int age) {
-        List<Car> currentCars = new ArrayList<>();
         List<Car> cars = null;
         try {
-            cars = dao.findAll();
+            cars = dao.findByPriceAndAge(price, age);
         } catch (DaoException e) {
             logger.error(e);
         }
-        for (Car car : cars) {
-            if (price.equals(car.getPrice()) && age == car.getYearOfManufactured()) {
-                currentCars.add(car);
-            }
-        }
-        return currentCars;
+        return cars;
     }
 }
